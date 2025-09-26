@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios Refeitos com Formulário</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .exercicio { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
+        .resultado { font-weight: bold; color: #0066cc; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Refazendo Exercícios com Formulário e DOM</h1>
+
+    <div class="exercicio">
+        <h2>5. Verificação de Idade</h2>
+        <label for="idadeInput">Informe sua idade:</label>
+        <input type="number" id="idadeInput" min="0">
+        <button onclick="ex5_verificarIdade()">Verificar</button>
+        <p class="resultado" id="res5"></p>
+    </div>
+
+    <div class="exercicio">
+        <h2>6. Número Par ou Ímpar</h2>
+        <label for="parImparInput">Digite um número:</label>
+        <input type="number" id="parImparInput">
+        <button onclick="ex6_verificarParImpar()">Verificar</button>
+        <p class="resultado" id="res6"></p>
+    </div>
+
+    <div class="exercicio">
+        <h2>7. Nota de Aluno</h2>
+        <label for="notaInput">Informe a nota (0-10):</label>
+        <input type="number" id="notaInput" min="0" max="10" step="0.1">
+        <button onclick="ex7_verificarNota()">Verificar</button>
+        <p class="resultado" id="res7"></p>
+    </div>
+
+    <div class="exercicio">
+        <h2>8. Operador Ternário</h2>
+        <label for="ternarioInput">Digite um número:</label>
+        <input type="number" id="ternarioInput">
+        <button onclick="ex8_verificarTernario()">Verificar</button>
+        <p class="resultado" id="res8"></p>
+    </div>
+
+    <div class="exercicio">
+        <h2>9. Tabuada com for</h2>
+        <label for="tabuadaInput">Digite o número da tabuada:</label>
+        <input type="number" id="tabuadaInput">
+        <button onclick="ex9_gerarTabuada()">Gerar Tabuada</button>
+        <div class="resultado" id="res9"></div>
+    </div>
+
+    <div class="exercicio">
+        <h2>13 & 14. Objeto e Método</h2>
+        <label for="marcaInput">Marca:</label><input type="text" id="marcaInput"><br><br>
+        <label for="modeloInput">Modelo:</label><input type="text" id="modeloInput"><br><br>
+        <label for="anoCarroInput">Ano:</label><input type="number" id="anoCarroInput"><br><br>
+        <button onclick="ex14_criarCarro()">Criar e Chamar Método</button>
+        <p class="resultado" id="res14"></p>
+    </div>
+
+    <script>
+        // Função utilitária para pegar o valor e o elemento de saída
+        function getValor(id) {
+            return document.getElementById(id).value;
+        }
+
+        function setResultado(id, mensagem) {
+            document.getElementById(id).innerHTML = mensagem;
+        }
+
+        /* ---------------------------------------------------- */
+        /* EXERCÍCIO 5: Verificação de Idade (if/else if/else)  */
+        /* ---------------------------------------------------- */
+        function ex5_verificarIdade() {
+            const idade = parseInt(getValor('idadeInput'));
+            let mensagem = "";
+
+            if (idade < 12) {
+                mensagem = "Criança";
+            } else if (idade >= 12 && idade <= 17) {
+                mensagem = "Adolescente";
+            } else if (idade >= 18) {
+                mensagem = "Adulto";
+            } else {
+                 mensagem = "Por favor, digite uma idade válida.";
+            }
+
+            setResultado('res5', "Classificação: " + mensagem);
+        }
+
+        /* ---------------------------------------------------- */
+        /* EXERCÍCIO 6: Número Par ou Ímpar (if/else)           */
+        /* ---------------------------------------------------- */
+        function ex6_verificarParImpar() {
+            const num = parseInt(getValor('parImparInput'));
+            let mensagem = "";
+
+            if (isNaN(num)) {
+                mensagem = "Por favor, digite um número.";
+            } else if (num % 2 === 0) {
+                mensagem = `O número ${num} é PAR.`;
+            } else {
+                mensagem = `O número ${num} é ÍMPAR.`;
+            }
+
+            setResultado('res6', mensagem);
+        }
+
+        /* ---------------------------------------------------- */
+        /* EXERCÍCIO 7: Nota de Aluno (if/else if/else)         */
+        /* ---------------------------------------------------- */
+        function ex7_verificarNota() {
+            const nota = parseFloat(getValor('notaInput'));
+            let mensagem = "";
+
+            if (isNaN(nota) || nota < 0 || nota > 10) {
+                mensagem = "Nota inválida. Digite entre 0 e 10.";
+            } else if (nota >= 7) {
+                mensagem = "APROVADO";
+            } else if (nota >= 5 && nota < 7) {
+                mensagem = "RECUPERAÇÃO";
+            } else {
+                mensagem = "REPROVADO";
+            }
+
+            setResultado('res7', "Resultado: " + mensagem);
+        }
+
+        /* ---------------------------------------------------- */
+        /* EXERCÍCIO 8: Operador Ternário (Encadeado)           */
+        /* ---------------------------------------------------- */
+        function ex8_verificarTernario() {
+            const num = parseFloat(getValor('ternarioInput'));
+            let mensagem = "";
+
+            if (isNaN(num)) {
+                mensagem = "Por favor, digite um número.";
+            } else {
+                mensagem = (num > 0) ? "Positivo" : (num < 0) ? "Negativo" : "Zero";
+            }
+
+            setResultado('res8', "O número é: " + mensagem);
+        }
+
+        /* ---------------------------------------------------- */
+        /* EXERCÍCIO 9: Tabuada com for                         */
+        /* ---------------------------------------------------- */
+        function ex9_gerarTabuada() {
+            const num = parseInt(getValor('tabuadaInput'));
+            let tabuadaHTML = "Não foi possível gerar a tabuada.";
+            
+            if (!isNaN(num)) {
+                tabuadaHTML = `<strong>Tabuada de ${num}:</strong><br>`;
+                for (let i = 1; i <= 10; i++) {
+                    let resultado = num * i;
+                    tabuadaHTML += `${num} x ${i} = ${resultado}<br>`;
+                }
+            }
+
+            // Usamos innerHTML para inserir as quebras de linha (<br>)
+            setResultado('res9', tabuadaHTML);
+        }
+
+        /* ---------------------------------------------------- */
+        /* EXERCÍCIO 13 & 14: Objeto e Método                   */
+        /* ---------------------------------------------------- */
+        function ex14_criarCarro() {
+            const marca = getValor('marcaInput');
+            const modelo = getValor('modeloInput');
+            const ano = parseInt(getValor('anoCarroInput'));
+
+            const carro = {
+                marca,
+                modelo,
+                ano,
+                // Método do Exercício 14
+                descricao: function() {
+                    return `Marca: ${this.marca}, Modelo: ${this.modelo}, Ano: ${this.ano}`;
+                }
+            };
+            
+            let htmlResultado = ``;
+            
+            // Exibição das propriedades (Ex. 13)
+            htmlResultado += `Propriedades (Ex. 13): Marca: ${carro.marca}, Modelo: ${carro.modelo}, Ano: ${carro.ano}<br>`;
+            
+            // Chamada do método (Ex. 14)
+            htmlResultado += `Chamada do Método (Ex. 14): ${carro.descricao()}`;
+
+            setResultado('res14', htmlResultado);
+        }
+    </script>
+</body>
+</html>

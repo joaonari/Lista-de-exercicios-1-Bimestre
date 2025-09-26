@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exercicio 14</title>
+</head>
+<body>
+    <script>
+        const modelo = prompt(`Informe o modelo do carro:`);
+        const marca = prompt(`Informe a marca do carro:`);
+        const ano = parseInt(prompt(`Informe o ano do carro:`));
+
+        carro = {
+            modelo,
+            marca,
+            ano,
+                descricao: function(){
+                    return `Modelo: ${this.modelo} Marca: ${this.marca} Ano: ${this.ano}`
+                }
+
+        };
+        
+        console.log(descricao());
+    </script>
+</body>
+</html>

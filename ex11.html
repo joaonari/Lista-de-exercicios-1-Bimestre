@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exercicio 11</title>
+</head>
+<body>
+    <script>
+        const nome = prompt(`Digite o seu nome: `)
+        const idade = parseInt(prompt(`Digite a sua idade: `))
+        const cidade = prompt(`Digite o nome da sua cidade: `)
+
+        const pessoa = {
+            nome,
+            idade,
+            cidade
+        }
+        for(dados in pessoa){
+            console.log(`${dados}: ${pessoa[dados]}`)
+        }
+        
+    </script>
+</body>
+</html>

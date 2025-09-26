@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 21 - Controle de Fila</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { display: flex; gap: 30px; }
+        #filaAtual, #historico { border: 1px solid #ccc; padding: 15px; width: 50%; }
+        pre { background-color: #eee; padding: 10px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Controle de Fila de Atendimento</h1>
+
+    <label for="nomeInput">Nome do Cliente:</label>
+    <input type="text" id="nomeInput">
+    <button onclick="entrarNaFila()">Entrar na Fila</button>
+    <button onclick="atenderCliente()">Atender Próximo</button>
+
+    <hr>
+
+    <div class="container">
+        <div id="filaAtual">
+            <h3>Fila de Espera (Aguardando)</h3>
+            <pre id="listaFila"></pre>
+        </div>
+        <div id="historico">
+            <h3>Histórico de Atendimentos</h3>
+            <pre id="listaHistorico"></pre>
+        </div>
+    </div>
+
+<script>
+    // Dois vetores (arrays) para armazenar os dados
+    const filaDeEspera = []; // Armazena {nome, horaEntrada}
+    const historicoAtendimento = []; // Armazena {nome, entrada, atendimento, tempoEspera}
+
+    // Função para atualizar a exibição dos vetores na tela
+    function exibirFila() {
+        // Exibe a Fila Atual
+        const listaFilaHTML = filaDeEspera.map(p => 
+            `Nome: ${p.nome} | Entrada: ${formatarHora(p.horaEntrada)}`
+        ).join('\n');
+        document.getElementById('listaFila').textContent = listaFilaHTML || 'Fila vazia.';
+
+        // Exibe o Histórico
+        const listaHistoricoHTML = historicoAtendimento.map(h => 
+            `Nome: ${h.nome} | Espera: ${h.tempoEspera} segundos | Atendido: ${formatarHora(h.horaAtendimento)}`
+        ).join('\n\n');
+        document.getElementById('listaHistorico').textContent = listaHistoricoHTML || 'Nenhum atendimento registrado.';
+    }
+    
+    // Função auxiliar para formatar a hora de forma legível
+    function formatarHora(timestamp) {
+        const data = new Date(timestamp);
+        return new Intl.DateTimeFormat('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        }).format(data);
+    }
+
+    // -----------------------------------------------------------------
+    // FUNÇÃO CORRIGIDA/ADICIONADA: Entrar na Fila (Usa push())
+    // -----------------------------------------------------------------
+    function entrarNaFila() {
+        const nomeInput = document.getElementById('nomeInput');
+        const nome = nomeInput.value.trim(); // Pega o nome e remove espaços extras
+        
+        if (nome === "") {
+            alert("Por favor, digite um nome para entrar na fila.");
+            return; 
+        }
+        
+        // Cria o objeto com o nome e o timestamp (hora de entrada)
+        const novoCliente = {
+            nome: nome,
+            horaEntrada: Date.now() 
+        };
+        
+        // Usa PUSH para inserir no final da fila
+        filaDeEspera.push(novoCliente);
+        
+        nomeInput.value = ''; // Limpa o campo após a inserção
+        exibirFila(); // Atualiza a visualização
+    }
+
+    // -----------------------------------------------------------------
+    // FUNÇÃO COMPLETA: Atender Cliente (Usa shift())
+    // -----------------------------------------------------------------
+    function atenderCliente() {
+        // 1. Verifica se a fila está vazia
+        if (filaDeEspera.length === 0) {
+            alert("A fila de espera está vazia!");
+            return;
+        }
+
+        // 2. Usa SHIFT para remover e pegar o primeiro cliente
+        const clienteAtendido = filaDeEspera.shift();
+
+        // 3. Obtém a hora de atendimento e calcula o tempo de espera
+        const horaAtendimento = Date.now();
+        const tempoTotalEmMilissegundos = horaAtendimento - clienteAtendido.horaEntrada;
+        const tempoTotalEmSegundos = (tempoTotalEmMilissegundos / 1000).toFixed(2);
+
+        // 4. Cria o registro de Histórico
+        const registroHistorico = {
+            nome: clienteAtendido.nome,
+            horaEntrada: clienteAtendido.horaEntrada,
+            horaAtendimento: horaAtendimento,
+            tempoEspera: tempoTotalEmSegundos
+        };
+
+        // 5. Usa PUSH para inserir no histórico
+        historicoAtendimento.push(registroHistorico);
+        exibirFila();
+        
+        alert(`O cliente ${clienteAtendido.nome} foi atendido após ${tempoTotalEmSegundos} segundos de espera.`);
+    }
+</script>
+</body>
+</html>

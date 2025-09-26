@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 19</title>
+</head>
+<body>
+    <script>
+        const arrayOriginal = [2, 5, 8, 11, 14];
+
+        //  Começa com o array original
+        const resultadoFinal = arrayOriginal
+            //  Seleciona apenas os números que são maiores que 5 (8, 11, 14)
+            .filter(num => num > 5)
+            // Pega o novo array ([8, 11, 14]) e dobra cada valor (16, 22, 28)
+            .map(num => num * 2);
+
+        console.log(resultadoFinal);
+        
+    </script>
+</body>
+</html>
